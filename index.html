@@ -1662,9 +1662,9 @@
                             <div class="wa-bubble wa-bubble-incoming">
                                 <div class="wa-voice-message">
                                     <div class="wa-play-btn-container">
-                                        <button class="wa-play-btn" onclick="toggleAudio()" aria-label="Tocar áudio">
-                                            <i data-lucide="play" id="wa-play-icon"></i>
-                                            <i data-lucide="pause" id="wa-pause-icon" class="hidden"></i>
+                                        <button class="wa-play-btn" onclick="toggleAudio()" aria-label="Tocar áudio" style="border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                            <span id="wa-play-icon" style="color: #667781; display: block;"><i data-lucide="play"></i></span>
+                                            <span id="wa-pause-icon" class="hidden" style="color: #667781; display: none;"><i data-lucide="pause"></i></span>
                                         </button>
                                     </div>
                                     
@@ -1703,7 +1703,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <audio id="wa-audio" src="https://saber-ilimitado.github.io/GUIA-B-BLICO-PARA-SUPERAR-A-ANSIEDADE-DO-DIA-A-DIA/depoimento2.mp3" preload="metadata"></audio>
+                                <audio id="wa-audio" src="depoimento2.mp3" preload="metadata"></audio>
                             </div>
                         </div>
                     </div>
@@ -2015,8 +2015,8 @@
 
             waAudio.addEventListener('ended', () => {
                 waAudio.currentTime = 0;
-                waPlayIcon.classList.remove('hidden');
-                waPauseIcon.classList.add('hidden');
+                waPlayIcon.style.display = 'block';
+                waPauseIcon.style.display = 'none';
                 updateWaveformProgress(0);
             });
         }
@@ -2025,13 +2025,14 @@
             if (!waAudio) initAudioPlayer();
             
             if (waAudio.paused) {
-                waAudio.play();
-                waPlayIcon.classList.add('hidden');
-                waPauseIcon.classList.remove('hidden');
+                waAudio.play().then(() => {
+                    waPlayIcon.style.display = 'none';
+                    waPauseIcon.style.display = 'block';
+                }).catch(err => console.log("Erro ao tocar áudio:", err));
             } else {
                 waAudio.pause();
-                waPlayIcon.classList.remove('hidden');
-                waPauseIcon.classList.add('hidden');
+                waPlayIcon.style.display = 'block';
+                waPauseIcon.style.display = 'none';
             }
         }
 
